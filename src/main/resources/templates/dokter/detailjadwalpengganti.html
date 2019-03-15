@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="../../favicon.ico">
+
+<title>Detail Jadwal Dokter Pengganti</title>
+
+<!-- Bootstrap core CSS -->
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet" media="screen" />
+<link th:href="@{/css/dashboard.css}" rel="stylesheet" media="screen" />
+
+<!-- Custom styles for this template -->
+<link th:href="@{/css/starter-template.css}" rel="stylesheet"
+	media="screen" />
+
+<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+<script th:src="@{/js/ie-emulation-modes-warning.js}"></script>
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<link th:href="@{/css/background.css}" rel="stylesheet" media="screen" />
+</head>
+
+<body class="back-pic">
+
+	<section th:replace="navbar.html"></section>
+	<div class="container containers">
+		<div class="row">
+			<div class="col-sm-2">
+				<!-- <section th:replace="dokter/dokter_sidebar.html"></section> -->
+				<nav class="nav-sidebar">
+					<ul class="nav">
+						<li><a th:href="@{/dokter?q=}">Data Dokter</a></li>
+						<li><a th:href="@{/jadwaldokter}">Jadwal Dokter</a></li>
+						<li class="active"><a th:href="@{/jadwalpengganti}">Jadwal
+								Pengganti</a></li>
+						<li class="nav-divider"></li>
+					</ul>
+				</nav>
+			</div>
+			<div class="col-sm-10" th:object="${pengganti}">
+				<br>
+				<ol class="breadcrumb">
+					<li><a th:href="@{/jadwalpengganti}">Data Dokter</a></li>
+					<li class="active"
+						th:text="${'Detail Jadwal Pengganti'}"></li>
+				</ol>
+				<h2>Detail Jadwal Pengganti</h2>
+				<br> <a type="button"
+					th:href="${'/jadwalpengganti/edit/'+pengganti.id}"
+					class="btn btn-default">Ubah</a> <a type="button"
+					th:href="${'/jadwalpengganti/hapus/'+pengganti.id}"
+					onclick="return confirm('Apakah anda yakin ingin menghapus jadwal ini?')"
+					class="btn btn-danger">Hapus</a>
+				<div class="row" style="padding-top: 30px">
+					<div class="col-md-12">
+						<table class="table table-bordered">
+							<tbody>
+								<tr>
+									<th>Dokter berhalangan</th>
+									<td><p th:text="*{berhalangan}"></p></td>
+								</tr>
+								<tr>
+									<th>Spesialis pengganti</th>
+									<td><p th:text="*{spesialis}"></p></td>
+								</tr>
+								<tr>
+									<th>Dokter Pengganti</th>
+									<td><p th:text="*{pengganti}"></p></td>
+								</tr>
+								<tr>
+									<th>Tanggal Pengganti</th>
+									<td><p
+											th:text="*{#dates.format(mulai,'dd MMM yyyy') +' s/d '+#dates.format(selesai,'dd MMM yyyy')}"></p>
+									</td>
+								</tr>
+								<tr>
+									<th>Keterangan</th>
+									<td><p th:text="*{keterangan}"></p></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.container -->
+
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script th:src="@{/js/jquery.js}"></script>
+	<script th:src="@{/js/bootstrap.js}"></script>
+	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+</body>
+</html>

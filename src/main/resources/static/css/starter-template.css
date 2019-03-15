@@ -1,0 +1,16 @@
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+.login-home {
+  padding: 40px 350px;
+  text-align: center;
+}
+
+.border-grey{
+	border-color: #cccccc
+}
