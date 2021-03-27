@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="../../favicon.ico">
+
+<title>Detail Jadwal Dokter</title>
+
+<!-- Bootstrap core CSS -->
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet" media="screen" />
+<link th:href="@{/css/dashboard.css}" rel="stylesheet" media="screen" />
+
+<!-- Custom styles for this template -->
+<link th:href="@{/css/starter-template.css}" rel="stylesheet"
+	media="screen" />
+
+<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+<script th:src="@{/js/ie-emulation-modes-warning.js}"></script>
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<link th:href="@{/css/background.css}" rel="stylesheet" media="screen" />
+</head>
+
+<body class="back-pic">
+
+	<section th:replace="navbar.html"></section>
+	<div class="container containers">
+		<div class="row">
+			<div class="col-sm-2">
+				<!-- <section th:replace="dokter/dokter_sidebar.html"></section> -->
+				<nav class="nav-sidebar">
+					<ul class="nav">
+						<li><a th:href="@{/dokter?q=}">Data Dokter</a></li>
+						<li class="active"><a th:href="@{/jadwaldokter}">Jadwal
+								Dokter</a></li>
+						<li><a th:href="@{/jadwalpengganti}">Jadwal Pengganti</a></li>
+						<li class="nav-divider"></li>
+					</ul>
+				</nav>
+			</div>
+			<div class="col-sm-10" th:object="${jadwaldetail}">
+				<br>
+				<ol class="breadcrumb">
+					<li><a th:href="@{/jadwaldokter}">Jadwal Dokter</a></li>
+					<li class="active">Detail Jadwal</li>
+				</ol>
+				<h2 th:text="${'Detail Jadwal Dokter: '+jadwaldetail.nama_dokter}"></h2>
+
+				<br>
+				<div class="row">
+					<div class="col-sm-6">
+						<a type="button"
+							th:href="${'/jadwaldokter/edit/'+jadwaldetail.id_jadwal}"
+							class="btn btn-default">Ubah</a> <a type="button"
+							th:href="${'/jadwaldokter/hapus/'+jadwaldetail.id_jadwal}"
+							onclick="return confirm('Apakah anda yakin ingin menghapus jadwal ini?')"
+							class="btn btn-danger">Hapus</a>
+					</div>
+					<div class="col-sm-6" align="right">
+					<a type="button"
+							class="btn btn-primary" th:href="${'/jadwalpengganti/new/'+{jadwaldetail.id_jadwal}}">Pengganti</a>
+					</div>
+				</div>
+
+				<div class="row" style="padding-top: 30px">
+					<div class="col-md-12">
+						<table class="table table-bordered table-condensed">
+							<tbody>
+								<tr>
+									<th>Nama Dokter</th>
+									<td colspan="7" th:text="${jadwaldetail.nama_dokter}"></td>
+								</tr>
+								<tr>
+									<th>NIP Dokter</th>
+									<td colspan="7"><p th:text="${jadwaldetail.nip}"></p></td>
+								</tr>
+								<tr>
+									<th>Spesialis</th>
+									<td colspan="7"><p th:text="${jadwaldetail.spesialis}"></p></td>
+								</tr>
+								<tr>
+									<th>Jam Praktek</th>
+									<td colspan="7"><p
+											th:text="${jadwaldetail.mulai+' - '+jadwaldetail.selesai+' WIB'}"></p></td>
+								</tr>
+								<tr>
+									<th rowspan="2">Hari Praktek</th>
+									<td align="center">Senin</td>
+									<td align="center">Selasa</td>
+									<td align="center">Rabu</td>
+									<td align="center">Kamis</td>
+									<td align="center">Jumat</td>
+									<td align="center">Sabtu</td>
+									<td align="center">Minggu</td>
+								</tr>
+								<tr>
+									<td align="center" th:if="${jadwaldetail.senin}==1"><span
+										class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+									<td align="center" th:if="${jadwaldetail.senin}!=1"><span
+										aria-hidden="true"></span></td>
+									<td align="center" th:if="${jadwaldetail.selasa}==1"><span
+										class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+									<td align="center" th:if="${jadwaldetail.selasa}!=1"><span
+										aria-hidden="true"></span></td>
+									<td align="center" th:if="${jadwaldetail.rabu}==1"><span
+										class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+									<td align="center" th:if="${jadwaldetail.rabu}!=1"><span
+										aria-hidden="true"></span></td>
+									<td align="center" th:if="${jadwaldetail.kamis}==1"><span
+										class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+									<td align="center" th:if="${jadwaldetail.kamis}!=1"><span
+										aria-hidden="true"></span></td>
+									<td align="center" th:if="${jadwaldetail.jumat}==1"><span
+										class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+									<td align="center" th:if="${jadwaldetail.jumat}!=1"><span
+										aria-hidden="true"></span></td>
+									<td align="center" th:if="${jadwaldetail.sabtu}==1"><span
+										class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+									<td align="center" th:if="${jadwaldetail.sabtu}!=1"><span
+										aria-hidden="true"></span></td>
+									<td align="center" th:if="${jadwaldetail.minggu}==1"><span
+										class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+									<td align="center" th:if="${jadwaldetail.minggu}!=1"><span
+										aria-hidden="true"></span></td>
+								</tr>
+								<tr>
+									<th>Keterangan</th>
+									<td colspan="7"><p th:text="${jadwaldetail.keterangan}"></p></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.container -->
+
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script th:src="@{/js/jquery.js}"></script>
+	<script th:src="@{/js/bootstrap.js}"></script>
+	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+</body>
+</html>

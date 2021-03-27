@@ -1,0 +1,9 @@
+.back-pic {
+	background: url('../img/gplaypattern.png') repeat fixed;
+}
+
+.containers {
+	background-color: white;
+	min-height: 100vh;
+}
+

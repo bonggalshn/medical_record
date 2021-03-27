@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="../../favicon.ico">
+
+<title>Kelola Data Pengobatan Rawat Inap Pasien</title>
+
+<!-- Bootstrap core CSS -->
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet" media="screen" />
+<link th:href="@{/css/dashboard.css}" rel="stylesheet" media="screen" />
+
+<!-- Custom styles for this template -->
+<link th:href="@{/css/starter-template.css}" rel="stylesheet"
+	media="screen" />
+
+<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+<script th:src="@{/js/ie-emulation-modes-warning.js}"></script>
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<link th:href="@{/css/background.css}" rel="stylesheet" media="screen" />
+</head>
+<body class="back-pic">
+
+	<section th:replace="navbar.html"></section>
+	<div class="container containers">
+		<br>
+		<!-- <ol class="breadcrumb">
+			<li><a th:href="${'/pasien'}">Data Pasien</a></li>
+			<li><a th:href="${'/detailpasien/'+pasien.id_pasien}">Profil
+					Pasien</a></li>
+			<li><a th:href="${'/detailpengobatan/'+pasien.id_pasien}">Data
+					Pengobatan</a></li>
+			<li th:if="${pengobatanInap.id_pengobatan_inap}!=null"><a
+				th:href="${'/datapengobataninap/'+pengobatanInap.id_pengobatan_inap}"
+				th:text="${'Data Pengobatan '+#dates.format(pengobatanInap.tanggal_masuk,'dd MMM yyyy')}">
+			</a></li>
+			<li th:if="${pengobatanInap.id_pengobatan_inap}==null" class="active">Tambah
+				Data Pengobatan Baru</li>
+			<li th:if="${pengobatanInap.id_pengobatan_inap}!=null" class="active">Ubah
+				Data Pengobatan</li>
+		</ol> -->
+
+		<h2 th:if="${pengobatanInap.id_pengobatan_inap}==null">Tambah
+			Data Pengobatan Baru</h2>
+		<h2 th:if="${pengobatanInap.id_pengobatan_inap}!=null">Ubah Data
+			Pengobatan</h2>
+
+		<div th:if="${convert}!='yes'" th:object="${pasien}">
+			<form class="form-horizontal" th:object="${pengobatanInap}"
+				th:action="@{'/detailpengobatan/createInap/'+${pasien.id_pasien}}"
+				method="post">
+				<input type="hidden" th:field="*{id_pengobatan_inap}"> <input
+					type="hidden" th:field="*{version}"> <input type="hidden"
+					th:field="*{id_pasien}">
+
+				<!-- <p th:text="${pasien.id_pasien}"></p> -->
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Dokter Pemeriksa: </label>
+					<div class="col-sm-10">
+
+						<!-- <input type="text" class="form-control"
+									th:field="*{id_dokter_inap}" /> -->
+						<select th:if="${pengobatanInap.id_pengobatan_inap}==null"
+							required class="form-control" th:field="*{id_dokter_inap}">
+							<option value="">Pilih Dokter Pemeriksa</option>
+							<option th:each="dokterss : ${dokter}"
+								th:value="${dokterss.id_dokter}"
+								th:text="${dokterss.nama_dokter+' - '+dokterss.spesialis_dokter}"></option>
+
+						</select> <input th:if="${pengobatanInap.id_pengobatan_inap}!=null"
+							type="hidden" class="form-control" name="id_dokter_inap"
+							th:value="${dok.id_dokter}"></input> <input
+							th:if="${pengobatanInap.id_pengobatan_inap}!=null" type="text"
+							readonly class="form-control" th:value="${dok.nama_dokter}"></input>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Tanggal Masuk: </label>
+					<div class="col-sm-10">
+						<input th:if="${pengobatanInap.tanggal_masuk}!=null" readonly
+							type="date" class="form-control" th:field="*{tanggal_masuk}"
+							th:value="${now}" /> <input type="text" class="form-control"
+							th:if="${pengobatanInap.tanggal_masuk}==null" readonly
+							th:value="${#dates.format(now,'dd MMM yyyy')}">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Berat badan pasien: </label>
+					<div class="col-sm-10">
+						<input type="number" step="0.01" class="form-control"
+							th:field="*{berat_inap}" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Suhu Badan: </label>
+					<div class="col-sm-10">
+						<input type="number" step="0.01" class="form-control"
+							th:field="*{suhu_inap}" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Tekanan Darah: </label>
+					<div class="col-sm-10">
+						<input type="number" class="form-control"
+							th:field="*{tekanan_darah_inap}" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Diagnosa: </label>
+					<div class="col-sm-10">
+						<input required type="text" class="form-control"
+							th:field="*{diagnosa_inap}" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Detail Pemeriksaan: </label>
+					<div class="col-sm-10">
+						<input required type="text" class="form-control"
+							th:field="*{detail_inap}" />
+					</div>
+				</div>
+
+				<!-- <div class="form-group">
+					<label class="col-sm-2 control-label">Jenis Perawatan: </label>
+					<div class="col-sm-10">
+						<input required type="text" class="form-control"
+							th:field="*{jenis_perawatan}" />
+					</div>
+				</div> -->
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Jenis Perawatan: </label>
+					<div class="col-sm-10">
+						<select required class="form-control"
+							th:field="*{jenis_perawatan}">
+							<option value="">Pilih Jenis Perawatan</option>
+							<option value="Gigi & Mulut">Gigi & Mulut</option>
+							<option value="Kardiologi">Kardiologi</option>
+							<option value="Penyakit Dalam">Penyakit Dalam</option>
+							<option value="Anak">Anak</option>
+							<option value="THT">THT</option>
+							<option value="Paru-paru">Paru-paru</option>
+							<option value="Perinatologi">Perinatologi</option>
+							<option value="Obstetrik">Obstetrik</option>
+							<option value="Ginekologi">Ginekologi</option>
+							<option value="Saraf">Saraf</option>
+							<option value="Mata">Mata</option>
+							<option value="Bedah">Bedah</option>
+							<option value="Kulit">Kulit & Kelamin</option>
+							<option value="Jiwa">Jiwa</option>
+						</select>
+					</div>
+				</div>
+
+				<!-- <div class="form-group">
+					<label class="col-sm-2 control-label">Proses Keluar: </label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control"
+							th:field="*{proses_keluar}" />
+					</div>
+				</div> -->
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Proses Keluar: </label>
+					<div class="col-sm-10">
+						<select required class="form-control" th:field="*{proses_keluar}">
+							<option value="">Pilih Proses Keluar</option>
+							<option value="Hidup - Dipulangkan">Hidup - Dipulangkan</option>
+							<option value="Hidup - Atas Permintaan Sendiri">Hidup -
+								Atas Permintaan Sendiri</option>
+							<option value="Hidup - Melarikan Diri">Hidup - Melarikan
+								Diri</option>
+							<option value="Hidup - Dirujuk">Hidup - Dirujuk</option>
+							<option value="Hidup - Dipindahkan">Hidup - Dipindahkan</option>
+							<option value="Hidup - Pindahan">Hidup - Pindahan</option>
+							<option value="Meninggal - 48 Jam ke atas">Meninggal -
+								48 Jam ke atas</option>
+							<option value="Meninggal - Kurang dari 48 jam">Meninggal
+								- Kurang dari 48 jam</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Keterangan: </label>
+					<div class="col-sm-10">
+						<!-- <input type="text" class="form-control" th:field="*{keterangan}" /> -->
+						<textarea class="form-control" rows="5" th:field="*{keterangan}"></textarea>
+					</div>
+				</div>
+
+				<div class="form-group" style="text-align: right; margin: 5px">
+					<button type="submit" name="save" class="btn btn-success">Simpan</button>
+					<button type="submit" formnovalidate name="cancel"
+						class="btn btn-danger">Batal</button>
+				</div>
+
+			</form>
+		</div>
+
+		<!-- ################################################ CONVERT ######################################################################## -->
+
+		<div th:if="${convert}=='yes'" th:object="${pengobatanInap}">
+			<form class="form-horizontal"
+				th:action="@{'/convert/'+${pengobatan.id_pasien}}" method="post">
+				<input type="hidden" name="id_pengobatan_inap">
+				<input type="hidden" name="version"> <input
+					type="hidden" name="id_pasien" th:value="${pengobatan.id_pasien}">
+
+				<!-- <p th:text="${pasien.id_pasien}"></p> -->
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Dokter Pemeriksa: </label>
+					<div class="col-sm-10">
+						<select required class="form-control" th:field="*{id_dokter_inap}">
+							<option value="">Pilih Dokter Pemeriksa</option>
+							<option th:each="dokterss : ${dokter}"
+								th:value="${dokterss.id_dokter}"
+								th:text="${dokterss.nama_dokter+' - '+dokterss.spesialis_dokter}"></option>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Tanggal Masuk: </label>
+					<div class="col-sm-10">
+						<!-- <input readonly type="date" class="form-control"
+							th:field="${pengobatanInap.tanggal_masuk}" th:value="${now}" /> -->
+							<input readonly type="date" class="form-control" name="tanggal_masuk"
+							 th:value="${now}" /><!-- 
+							<input readonly type="text" class="form-control"
+							 th:value="${#dates.format(now,'dd MMM yyyy')}" /> -->
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Berat badan pasien: </label>
+					<div class="col-sm-10">
+						<input type="number" class="form-control"
+							name="berat_inap" th:value="${pengobatan.berat_badan}" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Suhu Badan: </label>
+					<div class="col-sm-10">
+						<input type="number" class="form-control"
+							name="suhu_inap" th:value="${pengobatan.suhu_jalan}"/>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Tekanan Darah: </label>
+					<div class="col-sm-10">
+						<input type="number" class="form-control"
+							name="tekanan_darah_inap" th:value="${pengobatan.tekanan_darah_jalan}" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Diagnosa: </label>
+					<div class="col-sm-10">
+						<input required type="text" class="form-control"
+							name="diagnosa_inap" th:value="${pengobatan.diagnosa_jalan}" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Detail Pemeriksaan: </label>
+					<div class="col-sm-10">
+						<input required type="text" class="form-control"
+							name="detail_inap" th:value="${pengobatan.detail_jalan}" />
+					</div>
+				</div>
+
+				<!-- <div class="form-group">
+					<label class="col-sm-2 control-label">Jenis Perawatan: </label>
+					<div class="col-sm-10">
+						<input required type="text" class="form-control"
+							th:field="*{jenis_perawatan}" />
+					</div>
+				</div> -->
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Jenis Perawatan: </label>
+					<div class="col-sm-10">
+						<select required class="form-control"
+							th:field="*{jenis_perawatan}">
+							<option value="">Pilih Jenis Perawatan</option>
+							<option value="Gigi & Mulut">Gigi & Mulut</option>
+							<option value="Kardiologi">Kardiologi</option>
+							<option value="Penyakit Dalam">Penyakit Dalam</option>
+							<option value="Anak">Anak</option>
+							<option value="THT">THT</option>
+							<option value="Paru-paru">Paru-paru</option>
+							<option value="Perinatologi">Perinatologi</option>
+							<option value="Obstetrik">Obstetrik</option>
+							<option value="Ginekologi">Ginekologi</option>
+							<option value="Saraf">Saraf</option>
+							<option value="Mata">Mata</option>
+							<option value="Bedah">Bedah</option>
+							<option value="Kulit">Kulit & Kelamin</option>
+							<option value="Jiwa">Jiwa</option>
+						</select>
+					</div>
+				</div>
+
+				<!-- <div class="form-group">
+					<label class="col-sm-2 control-label">Proses Keluar: </label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control"
+							th:field="*{proses_keluar}" />
+					</div>
+				</div> -->
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Proses Keluar: </label>
+					<div class="col-sm-10">
+						<select required class="form-control" th:field="*{proses_keluar}">
+							<option value="">Pilih Proses Keluar</option>
+							<option value="Hidup - Dipulangkan">Hidup - Dipulangkan</option>
+							<option value="Hidup - Atas Permintaan Sendiri">Hidup -
+								Atas Permintaan Sendiri</option>
+							<option value="Hidup - Melarikan Diri">Hidup - Melarikan
+								Diri</option>
+							<option value="Hidup - Dirujuk">Hidup - Dirujuk</option>
+							<option value="Hidup - Dipindahkan">Hidup - Dipindahkan</option>
+							<option value="Hidup - Pindahan">Hidup - Pindahan</option>
+							<option value="Meninggal - 48 Jam ke atas">Meninggal -
+								48 Jam ke atas</option>
+							<option value="Meninggal - Kurang dari 48 jam">Meninggal
+								- Kurang dari 48 jam</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Keterangan: </label>
+					<div class="col-sm-10">
+						<!-- <input type="text" class="form-control" th:field="*{keterangan}" /> -->
+						<textarea class="form-control" rows="5" name="keterangan" th:value="${pengobatan.keterangan}"></textarea>
+					</div>
+				</div>
+
+				<div class="form-group" style="text-align: right; margin: 5px">
+					<button type="submit" name="save" class="btn btn-success">Simpan</button>
+					<button type="submit" formnovalidate name="cancel"
+						class="btn btn-danger">Batal</button>
+				</div>
+
+			</form>
+		</div>
+	</div>
+
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script th:src="@{/js/jquery.js}"></script>
+	<script th:src="@{/js/bootstrap.js}"></script>
+	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+</body>
+</html>

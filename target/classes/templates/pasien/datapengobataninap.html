@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="../../favicon.ico">
+
+<title>Data Pengobatan Rawat Inap Pasien</title>
+
+<!-- Bootstrap core CSS -->
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet" media="screen" />
+<link th:href="@{/css/dashboard.css}" rel="stylesheet" media="screen" />
+
+<!-- Custom styles for this template -->
+<link th:href="@{/css/starter-template.css}" rel="stylesheet"
+	media="screen" />
+
+<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+<script th:src="@{/js/ie-emulation-modes-warning.js}"></script>
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<link th:href="@{/css/background.css}" rel="stylesheet" media="screen" />
+</head>
+
+<body class="back-pic">
+
+	<section th:replace="navbar.html"></section>
+	<div class="container containers">
+		<br>
+		<ol class="breadcrumb">
+			<li><a th:href="${'/pasien'}">Data Pasien</a></li>
+			<li><a th:href="${'/detailpasien/'+pengobatanInap.id_pasien}">Profil
+					Pasien</a></li>
+			<li><a
+				th:href="${'/detailpengobatan/'+pengobatanInap.id_pasien}">Data
+					Pengobatan</a></li>
+			<li class="active"
+				th:text="${'Detail Pengobatan '+#dates.format(pengobatanInap.masuk,'dd MMM yyyy')}"></li>
+		</ol>
+
+		<div class="row">
+			<div class="col-sm-12" th:object="${pengobatanInap}">
+				<h2
+					th:text="*{'Data Pengobatan Rawat Inap: '+#dates.format(masuk,'dd MMM yyyy')}"></h2>
+				<!-- <div class="row">
+			    	<div class="col-sm-6">
+				    	<div class="btn-group btn-group-sm" role="group">
+							<button type="button" class="btn btn-default" style="width:150px">Rawat Jalan</button>
+							<button type="button" class="btn btn-default" style="width:150px">Rawat Inap</button>
+						</div>
+			    	</div>
+			    	<div class="col-sm-6" style="text-align:right">
+			    		<a class="btn btn-sm btn-primary" href="">Tambah Data Pengobatan</a>
+			    	</div>		
+			    </div> -->
+
+				<div class="row">
+					<div class="col-sm-6">
+						<a type="button"
+							th:href="${'/datapengobataninap/edit/'+pengobatanInap.id_inap+'&'+pengobatanInap.id_pasien}"
+							class="btn btn-default">Ubah Data</a> <a type="button"
+							th:href="${'/datapengobataninap/hapus/'+pengobatanInap.id_inap+'&'+pengobatanInap.id_pasien}"
+							onclick="return confirm('Apakah anda yakin ingin menghapus data ini?')"
+							class="btn btn-danger">Hapus Data</a>
+					</div>
+					<div class="col-sm-6" style="text-align: right">
+						<h4 th:text="*{'Dokter Pemeriksa:' +dokter}"></h4>
+						<!-- <a type="button" th:href="${'/pasien/edit/'+pasien.id_pasien}" class="btn btn-default">Ubah Data</a> 
+						<a type="button" class="btn btn-default">Hapus Data</a> -->
+					</div>
+				</div>
+				<table class="table table-bordered" style="margin-top: 10px">
+					<tbody>
+						<tr>
+							<th width="30%">Diagnosa</th>
+							<td><p th:text="*{diagnosa}"></p></td>
+						</tr>
+						<tr>
+							<th>Berat badan</th>
+							<td><p th:if="*{berat}!=null" th:text="*{berat+' kg'}"></p>
+							</td>
+						</tr>
+						<tr>
+							<th>Suhu Badan</th>
+							<td><p th:text="*{suhu}"></p></td>
+						</tr>
+						<tr>
+							<th>Tekanan darah</th>
+							<td><p th:text="*{darah}"></p></td>
+						</tr>
+						<tr>
+							<th>Detail pemeriksaan</th>
+							<td><p th:text="*{detail}"></p></td>
+						</tr>
+						<tr>
+							<th>Jenis perawatan</th>
+							<td><p th:text="*{jenis_perawatan}"></p></td>
+						</tr>
+						<tr>
+							<th>Proses keluar</th>
+							<td><p th:text="*{proses_keluar}"></p></td>
+						</tr>
+						<tr>
+							<th>Keterangan</th>
+							<td><p th:text="*{keterangan}"></p></td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+	<!-- /.container -->
+
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script th:src="@{/js/jquery.js}"></script>
+	<script th:src="@{/js/bootstrap.js}"></script>
+	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+</body>
+</html>

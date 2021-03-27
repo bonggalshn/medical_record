@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="../../favicon.ico">
+
+<title>Jadwal Dokter</title>
+
+<!-- Bootstrap core CSS -->
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet" media="screen" />
+<link th:href="@{/css/dashboard.css}" rel="stylesheet" media="screen" />
+
+<!-- Custom styles for this template -->
+<link th:href="@{/css/starter-template.css}" rel="stylesheet"
+	media="screen" />
+
+<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+<script th:src="@{/js/ie-emulation-modes-warning.js}"></script>
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<link th:href="@{/css/background.css}" rel="stylesheet" media="screen" />
+<!-- Datatables CSS -->
+<link rel="stylesheet"
+	th:href="@{/js/datatables/dataTables.bootstrap.css}" media="screen" />
+
+</head>
+
+<body class="back-pic">
+
+	<section th:replace="navbar.html"></section>
+	<div class="container containers">
+		<div class="row">
+			<div class="col-sm-2">
+				<nav class="nav-sidebar">
+					<ul class="nav">
+						<li><a th:href="@{/dokter?q=}">Data Dokter</a></li>
+						<li class="active"><a th:href="@{/jadwaldokter}">Jadwal
+								Dokter</a></li>
+						<li><a th:href="@{/jadwalpengganti}">Jadwal Pengganti</a></li>
+					</ul>
+				</nav>
+			</div>
+			<div class="col-sm-10">
+				<h2>Jadwal Dokter RS Porsea</h2>
+				<ul class="nav nav-tabs">
+					<li class="active"><a data-toggle="tab" href="#spesialis">Dokter
+							Spesialis</a></li>
+					<li><a data-toggle="tab" href="#umum">Dokter Umum</a></li>
+				</ul>
+				<div class="row" style="margin-right: 5px">
+					<div class="tab-content">
+						<!-- ============================================ Dokter Spesialis =================================================== -->
+						<div class="tab-pane fade in active" id="spesialis">
+							<!-- SEARCH -->
+							<div class="col-sm-8"></div>
+
+							<!-- BUTTON ADD -->
+							<div class="col-sm-4" style="text-align: right">
+								<a class="btn btn-sm btn-primary" href="/jadwaldokter/new"
+									style="margin-top: 5px; margin-bottom:5px">Tambah Jadwal</a>
+							</div>
+
+
+
+							<div class="box-body" th:if="${not #lists.isEmpty(spjadwal)}">
+								<table id="example1" class="table table-bordered table-striped" style="margin-top: 10px">
+									<thead>
+										<tr>
+											<th>Nama Dokter</th>
+											<th>Jam Praktek</th>
+											<th>Spesialis</th>
+											<th style="text-align: center">Senin</th>
+											<th style="text-align: center">Selasa</th>
+											<th style="text-align: center">Rabu</th>
+											<th style="text-align: center">Kamis</th>
+											<th style="text-align: center">Jumat</th>
+											<th style="text-align: center">Sabtu</th>
+											<th style="text-align: center">Minggu</th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="jadwals : ${spjadwal}">
+											<td th:text="${jadwals.nama_dokter}"></td>
+											<td th:text="${jadwals.mulai+' - '+jadwals.selesai+'WIB'}"></td>
+											<td th:text="${jadwals.spesialis}"></td>
+											<td align="center" th:if="${jadwals.senin}==1"><span
+												class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+											<td align="center" th:if="${jadwals.senin}!=1"><span
+												aria-hidden="true"></span></td>
+											<td align="center" th:if="${jadwals.selasa}==1"><span
+												class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+											<td align="center" th:if="${jadwals.selasa}!=1"><span
+												aria-hidden="true"></span></td>
+											<td align="center" th:if="${jadwals.rabu}==1"><span
+												class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+											<td align="center" th:if="${jadwals.rabu}!=1"><span
+												aria-hidden="true"></span></td>
+											<td align="center" th:if="${jadwals.kamis}==1"><span
+												class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+											<td align="center" th:if="${jadwals.kamis}!=1"><span
+												aria-hidden="true"></span></td>
+											<td align="center" th:if="${jadwals.jumat}==1"><span
+												class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+											<td align="center" th:if="${jadwals.jumat}!=1"><span
+												aria-hidden="true"></span></td>
+											<td align="center" th:if="${jadwals.sabtu}==1"><span
+												class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+											<td align="center" th:if="${jadwals.sabtu}!=1"><span
+												aria-hidden="true"></span></td>
+											<td align="center" th:if="${jadwals.minggu}==1"><span
+												class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+											<td align="center" th:if="${jadwals.minggu}!=1"><span
+												aria-hidden="true"></span></td>
+											<td><a
+												th:href="${'/jadwaldokter/edit/'+jadwals.id_jadwal}"><span
+													class="glyphicon glyphicon-pencil"></span></a> <!-- <a
+												th:href="${'/jadwaldokter/hapus/'+jadwals.id_jadwal}"><span
+													class="glyphicon glyphicon-trash"></span></a> --> <a
+												th:href="${'/jadwaldokter/detail/'+jadwals.id_jadwal}"><span
+													class="glyphicon glyphicon-eye-open"></span></a></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div th:if="${#lists.isEmpty(spjadwal)}">
+							<p style="color: #aaaaaa">Tidak ada jadwal dokter spesialis</p>
+							</div>
+
+
+						</div>
+						<!-- ============================================= END ================================================================ -->
+						<!-- ========================================== Dokter Umum =========================================================== -->
+						<div class="tab-pane fade" id="umum">
+							<div class="col-sm-8"></div>
+							<div class="col-sm-4" style="text-align: right">
+								<a class="btn btn-sm btn-primary" href="/jadwaldokter/new"
+									style="margin-top: 5px;margin-bottom:5px">Tambah Jadwal</a>
+							</div>
+
+
+							<div class="box-body" th:if="${not #lists.isEmpty(umjadwal)}">
+								<table id="example2" class="table table-bordered table-striped" style="margin-top: 10px">
+									<thead>
+										<tr>
+											<th>Nama Dokter</th>
+											<th>Jam Praktek</th>
+											<th style="text-align: center">Senin</th>
+											<th style="text-align: center">Selasa</th>
+											<th style="text-align: center">Rabu</th>
+											<th style="text-align: center">Kamis</th>
+											<th style="text-align: center">Jumat</th>
+											<th style="text-align: center">Sabtu</th>
+											<th style="text-align: center">Minggu</th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="jadwals : ${umjadwal}">
+											<td th:text="${jadwals.nama_dokter}"></td>
+											<td th:text="${jadwals.mulai+' - '+jadwals.selesai+'WIB'}"></td>
+											
+											<td align="center" th:if="${jadwals.senin}==1"><span
+												class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+											<td align="center" th:if="${jadwals.senin}!=1"><span
+												aria-hidden="true"></span></td>
+											<td align="center" th:if="${jadwals.selasa}==1"><span
+												class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+											<td align="center" th:if="${jadwals.selasa}!=1"><span
+												aria-hidden="true"></span></td>
+											<td align="center" th:if="${jadwals.rabu}==1"><span
+												class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+											<td align="center" th:if="${jadwals.rabu}!=1"><span
+												aria-hidden="true"></span></td>
+											<td align="center" th:if="${jadwals.kamis}==1"><span
+												class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+											<td align="center" th:if="${jadwals.kamis}!=1"><span
+												aria-hidden="true"></span></td>
+											<td align="center" th:if="${jadwals.jumat}==1"><span
+												class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+											<td align="center" th:if="${jadwals.jumat}!=1"><span
+												aria-hidden="true"></span></td>
+											<td align="center" th:if="${jadwals.sabtu}==1"><span
+												class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+											<td align="center" th:if="${jadwals.sabtu}!=1"><span
+												aria-hidden="true"></span></td>
+											<td align="center" th:if="${jadwals.minggu}==1"><span
+												class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+											<td align="center" th:if="${jadwals.minggu}!=1"><span
+												aria-hidden="true"></span></td>
+											<td><a
+												th:href="${'/jadwaldokter/edit/'+jadwals.id_jadwal}"><span
+													class="glyphicon glyphicon-pencil"></span></a> <!-- <a
+												th:href="${'/jadwaldokter/hapus/'+jadwals.id_jadwal}"><span
+													class="glyphicon glyphicon-trash"></span></a> --> <a
+												th:href="${'/jadwaldokter/detail/'+jadwals.id_jadwal}"><span
+													class="glyphicon glyphicon-eye-open"></span></a></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div th:if="${#lists.isEmpty(umjadwal)}">
+							<p style="color: #aaaaaa">Tidak ada jadwal dokter umum</p>
+							</div>
+						</div>
+						<!-- ============================================== END =============================================================== -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /.row -->
+	</div>
+
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script th:src="@{js/jquery.js}"></script>
+	<script th:src="@{js/bootstrap.js}"></script>
+	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+	
+	
+	<!-- Datatables Javascript -->
+	<script th:src="@{/js/datatables/jquery.dataTables.min.js}"></script>
+	<script th:src="@{/js/datatables/dataTables.bootstrap.min.js}"></script>
+
+	<script>
+		$(function() {
+			$("#example1").DataTable({
+				"paging" : true,
+				"lengthChange" : true,
+				"searching" : true,
+				"ordering" : false,
+				"info" : true,
+				"autoWidth" : true
+			});
+			$('#example2').DataTable({
+				"paging" : true,
+				"lengthChange" : true,
+				"searching" : true,
+				"ordering" : false,
+				"info" : true,
+				"autoWidth" : true
+			});
+		});
+	</script>
+	
+</body>
+</html>

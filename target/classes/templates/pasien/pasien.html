@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="../../favicon.ico">
+
+<title>Data Pasien</title>
+
+<!-- Bootstrap core CSS -->
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet" media="screen" />
+<link th:href="@{/css/dashboard.css}" rel="stylesheet" media="screen" />
+
+<!-- Custom styles for this template -->
+<link th:href="@{css/starter-template.css}" rel="stylesheet"
+	media="screen" />
+
+<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+<script th:src="@{js/ie-emulation-modes-warning.js}"></script>
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link th:href="@{/css/background.css}" rel="stylesheet"
+	media="screen" />
+
+<!-- Datatables CSS -->
+<link rel="stylesheet"
+	th:href="@{/js/datatables/dataTables.bootstrap.css}" media="screen" />
+</head>
+
+<body class="back-pic">
+	<section th:replace="navbar.html"></section>
+
+	<div class="container containers">
+
+		<h2>Data Pasien RS Porsea</h2>
+		<div style="margin-bottom: 5px">
+			<a class="btn btn-sm btn-primary" href="pasien/create">Tambah
+				Pasien</a>
+		</div>
+
+		<div th:if="${not #lists.isEmpty(pasien)}">
+			<div class="box-body">
+				<table id="example1" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>Nomor Rekam Medik</th>
+							<th>Nama Pasien</th>
+							<th>Alamat</th>
+							<th>Jenis kelamin</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="pasiens : ${pasien}">
+							<td th:text="${pasiens.id_pasien}"></td>
+							<td th:text="${pasiens.nama_pasien}"></td>
+							<td th:text="${pasiens.alamat}"></td>
+							<td th:text="${pasiens.jenis_kelamin}"></td>
+							<td>
+								<!-- <a type="button" class="btn btn-xs btn-default" th:href="${'/detaildokter/'+dokters.id_dokter}">Detail</a>-->
+								<a th:href="${'/detailpasien/'+pasiens.id_pasien}"
+								data-toggle="tooltip" data-placement="top"
+								title="Lihat Detail Pasien"><span
+									class="glyphicon glyphicon-eye-open"></span></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div th:if="${#lists.isEmpty(pasien)}">
+		<p style="color: #aaaaaa">Pasien tidak ada</p>
+		</div>
+	</div>
+	<!-- /.container -->
+
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script type="text/javascript" th:inline="javascript">
+		$(function() {
+			$('[data-toggle="tooltip"]').tooltip()
+		})
+	</script>
+	<script th:src="@{/js/jquery.js}"></script>
+	<script th:src="@{/js/bootstrap.js}"></script>
+	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+
+	<!-- Datatables Javascript -->
+	<script th:src="@{/js/datatables/jquery.dataTables.min.js}"></script>
+	<script th:src="@{/js/datatables/dataTables.bootstrap.min.js}"></script>
+
+	<script>
+		$(function() {
+			$("#example1").DataTable({
+				"paging" : true,
+				"lengthChange" : true,
+				"searching" : true,
+				"ordering" : true,
+				"info" : true,
+				"autoWidth" : true
+			});
+			$('#example2').DataTable({
+				"paging" : true,
+				"lengthChange" : false,
+				"searching" : false,
+				"ordering" : true,
+				"info" : true,
+				"autoWidth" : false
+			});
+		});
+	</script>
+
+</body>
+</html>

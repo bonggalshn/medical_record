@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+<meta charset="ISO-8859-1">
+<title>RS Porsea</title>
+
+<!-- Bootstrap core CSS -->
+<link th:href="@{css/bootstrap.css}" rel="stylesheet" media="screen" />
+<link th:href="@{css/login.css}" rel="stylesheet" media="screen" />
+
+<!-- Custom styles for this template -->
+<link th:href="@{css/starter-template.css}" rel="stylesheet"
+	media="screen" />
+
+<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+<script th:src="@{js/ie-emulation-modes-warning.js}"></script>
+<link th:href="@{/css/background.css}" rel="stylesheet" media="screen" />
+
+</head>
+<body class="back-pic">
+
+	<div class="container">
+		<div class="card card-container">
+			<!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
+			<!-- <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" /> -->
+
+
+			<img id="profile-img" class="profile-img-card" src="img/hospital.png" />
+			<p id="profile-name" class="profile-name-card-title">Sistem
+				Informasi</p>
+			<p id="profile-name" class="profile-name-card">Rumah Sakit Porsea</p>
+			<hr>
+
+
+
+			<form class="form-signin" autocomplete="off" th:action="@{/SIRMJD}" method="post">
+
+				<span id="reauth-email" class="reauth-email"></span> <input
+					type="text" class="form-control" placeholder="Username"
+					name="username" required autofocus> <input type="password"
+					class="form-control" placeholder="Password" name="password"
+					required> 
+					<div th:if="${status}=='Failed'">
+					<p style="color:red">Username atau password salah</p>
+					</div>
+					
+				<!-- <div id="remember" class="checkbox">
+                    <label>
+                        <input type="checkbox" value="remember-me"> Remember me
+                    </label>
+                </div> -->
+				<button class="btn btn-lg btn-primary btn-block btn-signin"
+					type="submit">Sign in</button>
+			</form>
+			<!-- /form -->
+
+
+
+			<!--  <a href="#" class="forgot-password">
+                Forgot the password?
+            </a> -->
+		</div>
+		<!-- /card-container -->
+	</div>
+	<!-- /container -->
+
+
+
+	<!--
+	<div class="container">
+		<div class="login-home">
+			<div class="border-grey">
+				<h3>Sistem Informasi</h3><br>
+				<h4>Rekam Medik dan Jadwal Dokter</h4><br>
+				<hr>
+				<div class="form-horizontal">
+					<form th:action="@{/}" method = "post">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Username: </label>
+							<div class="col-sm-10">
+								<input type="text" placeholder="username" class="form-control" name="username"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Password: </label>
+							<div class="col-sm-10">
+								<input type="password" placeholder="password" class="form-control" name="password"/>
+							</div>
+						</div>
+						<div th:switch="${LoginMessage}">
+							<p th:case="error" style="color: red"> Wrong Password</p>
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-success">Login</button>
+						</div>
+					</form>
+				</div>
+				
+			</div>
+		</div>
+	</div>	
+	 -->
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script th:src="@{/js/jquery.js}"></script>
+	<script th:src="@{/js/bootstrap.js}"></script>
+	<script th:src="@{/js/login.js}"></script>
+	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+
+</body>
+</html>

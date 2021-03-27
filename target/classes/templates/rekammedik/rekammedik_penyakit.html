@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="../../favicon.ico">
+
+<title>Daftar Rekapitulasi Penyakit</title>
+
+<!-- Bootstrap core CSS -->
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet" media="screen" />
+<link th:href="@{/css/dashboard.css}" rel="stylesheet" media="screen" />
+
+<!-- Custom styles for this template -->
+<link th:href="@{/css/starter-template.css}" rel="stylesheet"
+	media="screen" />
+
+<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+<script th:src="@{/js/ie-emulation-modes-warning.js}"></script>
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<link th:href="@{/css/background.css}" rel="stylesheet" media="screen" />
+
+<!-- Chart Javascript -->
+<script th:src="@{/js/chart.js}"></script>
+<script>
+var diagnosaj = [];
+var jumlahj = [];
+var colorj = [];
+
+var diagnosai = [];
+var jumlahi = [];
+var colori = [];
+</script>
+
+<!-- Datatables CSS -->
+<link rel="stylesheet"
+	th:href="@{/js/datatables/dataTables.bootstrap.css}" media="screen" />
+</head>
+
+<body class="back-pic">
+
+	<section th:replace="navbar.html"></section>
+
+	<div class="container containers">
+		<div class="row">
+			<div class="col-sm-2">
+				<!-- <section th:replace="rekammedik/rekammedik_sidebar.html"></section> -->
+
+				<nav class="nav-sidebar">
+					<ul class="nav">
+						<li><a th:href="@{/rekammedik}">Laporan Umum</a></li>
+						<li class="active"><a th:href="@{/rekammedik_penyakit}">Rekapitulasi
+								Penyakit</a></li>
+						<li><a th:href="@{/rekammedik_pasien}">Daftar Pasien</a></li>
+						<li class="nav-divider"></li>
+					</ul>
+				</nav>
+			</div>
+
+			<div class="col-sm-10">
+				<h2>Data Rekam Medik RS Porsea</h2>
+
+				<ul class="nav nav-tabs" style="margin-bottom: 10px">
+					<li class="active"><a data-toggle="tab" href="#jalan">Rawat
+							jalan</a></li>
+					<li><a data-toggle="tab" href="#inap">Rawat Inap</a></li>
+				</ul>
+
+				<div class="tab-content">
+					<!-- ==============================================Rawat Jalan============================================= -->
+					<div class="tab-pane fade in active" id="jalan">
+
+						<canvas id="bar-chart" width="800" height="450"></canvas>
+
+						<div class="box-body" th:if="${not #lists.isEmpty(rmjalan)}">
+							<table id="example1" class="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<th>Nama Penyakit</th>
+										<th>Jumlah Pasien</th>
+										<th>Bulan</th>
+										<th>Tahun</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="rekam : ${rmjalan}">
+										<td th:text="${rekam.penyakit}"></td>
+										<td th:text="${rekam.total}"></td>
+										<td th:text="${rekam.bulan}"></td>
+										<td th:text="${rekam.tahun}"></td>
+									</tr>
+								</tbody>
+							</table>
+							<!-- </div> -->
+						</div>
+						<div th:if="${#lists.isEmpty(rmjalan)}">
+							<p style="color: #aaaaaa">Data penyakit tidak ada</p>
+						</div>
+						<!-- <div th:object="${rmjalan}">
+						<p th:text="${'test'+rmjalan.diagnosa_jalan}"></p>-->
+					</div>
+
+					<p th:if="${not #lists.isEmpty(totaljalan)}"
+						th:each="jlh : ${totaljalan}">
+						<script th:inline="javascript">
+										/*<![CDATA[*/ 
+											var a = [[${jlh.diagnosa}]]; 
+											var b = [[${jlh.jumlah}]];
+										/*]]>*/
+										diagnosaj.push(a);
+										jumlahj.push(b);
+										colorj.push("#3e95cd");
+										</script>
+					</p>
+					<p th:if="${#lists.isEmpty(totaljalan)}"></p>
+
+					<!-- ==================================================END======================================= -->
+					<!-- =============================================Rawat Inap====================================== -->
+					<div class="tab-pane fade" id="inap">
+						<canvas id="bar-chart2" width="800" height="450"></canvas>
+						<div class="box-body" th:if="${not #lists.isEmpty(rminap)}">
+							<table id="example2" class="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<th>Nama Penyakit</th>
+										<th>Jumlah Pasien</th>
+										<th>Bulan</th>
+										<th>Tahun</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="rekams : ${rminap}">
+										<td th:text="${rekams.penyakit}"></td>
+										<td th:text="${rekams.total}"></td>
+										<td th:text="${rekams.bulan}"></td>
+										<td th:text="${rekams.tahun}"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<p th:if="${not #lists.isEmpty(totalinap)}"
+						th:each="jlhs : ${totalinap}">
+						<script th:inline="javascript">
+										/*<![CDATA[*/ 
+											var c = [[${jlhs.diagnosa}]]; 
+											var d = [[${jlhs.jumlah}]];
+										/*]]>*/
+										diagnosai.push(c);
+										jumlahi.push(d);
+										colori.push("#8e5ea2");
+										</script>
+					</p>
+					<p th:if="${#lists.isEmpty(totalinap)}"></p>
+					<!-- ===========================================END=============================================== -->
+				</div>
+
+			</div>
+		</div>
+
+
+	</div>
+
+	<!-- /.container -->
+
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script th:src="@{/js/jquery.js}"></script>
+	<script th:src="@{/js/bootstrap.js}"></script>
+	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+
+	<script>
+	// Bar chart
+	new Chart(document.getElementById("bar-chart"), {
+	    type: 'bar',
+	    data: {
+	      labels: diagnosaj,
+	      datasets: [
+	        {
+	          label: "Penderita (orang)",
+	          backgroundColor: colorj,
+	          data: jumlahj
+	        }
+	      ]
+	    },
+	    options: {
+	      legend: { display: false },
+	      title: {
+	        display: true,
+	        text: 'Jenis penyakit rawat jalan'
+	      },
+	      scales: {
+	          yAxes: [{
+	              ticks: {
+	                  beginAtZero: true
+	              }
+	          }]
+	      }
+	    }
+	});
+	
+	new Chart(document.getElementById("bar-chart2"), {
+	    type: 'bar',
+	    data: {
+	      labels: diagnosai,
+	      datasets: [
+	        {
+	          label: "Penderita (orang)",
+	          backgroundColor: colori,
+	          data: jumlahi
+	        }
+	      ]
+	    },
+	    options: {
+	      legend: { display: false },
+	      title: {
+	        display: true,
+	        text: 'Jenis penyakit rawat inap'
+	      },
+	      scales: {
+	          yAxes: [{
+	              ticks: {
+	                  beginAtZero: true
+	              }
+	          }]
+	      }
+	    }
+	});
+	</script>
+
+	<!-- Datatables Javascript -->
+	<script th:src="@{/js/datatables/jquery.dataTables.min.js}"></script>
+	<script th:src="@{/js/datatables/dataTables.bootstrap.min.js}"></script>
+
+	<script>
+		$(function() {
+			$("#example1").DataTable({
+				"paging" : true,
+				"lengthChange" : true,
+				"searching" : true,
+				"ordering" : true,
+				"info" : true,
+				"autoWidth" : true
+			});
+			$('#example2').DataTable({
+				"paging" : true,
+				"lengthChange" : true,
+				"searching" : true,
+				"ordering" : true,
+				"info" : true,
+				"autoWidth" : true
+			});
+		});
+	</script>
+
+</body>
+</html>

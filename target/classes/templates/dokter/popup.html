@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="../../favicon.ico">
+
+<title>Kelola Jadwal Dokter</title>
+
+<!-- Bootstrap core CSS -->
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet" media="screen" />
+<link th:href="@{/css/dashboard.css}" rel="stylesheet" media="screen" />
+
+<!-- Custom styles for this template -->
+<link th:href="@{/css/starter-template.css}" rel="stylesheet"
+	media="screen" />
+
+<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+<script th:src="@{/js/ie-emulation-modes-warning.js}"></script>
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<link th:href="@{/css/background.css}" rel="stylesheet" media="screen" />
+</head>
+<body class="back-pic">
+
+	<section th:replace="navbar.html"></section>
+	<div class="container containers">
+		<div class="row">
+			<div class="col-sm-2">
+				<!-- <section th:replace="dokter/dokter_sidebar.html"></section> -->
+				<nav class="nav-sidebar">
+					<ul class="nav">
+						<li><a th:href="@{/dokter?q=}">Data Dokter</a></li>
+						<li class="active"><a th:href="@{/jadwaldokter}">Jadwal
+								Dokter</a></li>
+						<li><a th:href="@{/jadwalpengganti}">Jadwal Pengganti</a></li>
+						<li class="nav-divider"></li>
+					</ul>
+				</nav>
+			</div>
+			<div class="col-sm-10">
+				<br>
+				<div class="alert alert-danger" role="alert">
+					<h2>
+						<span class="glyphicon glyphicon-remove-sign"></span> Peringatan !
+					</h2>
+					Hari pada jadwal dokter yang Anda masukkan bertabrakan dengan hari
+					pada jadwal sebelumnya. Silahkan memasukkan hari yang tepat.<br>
+					<br> <a type="button" class="btn btn-sm btn-danger"
+						onclick="history.back()">Kembali</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script th:src="@{/js/jquery.js}"></script>
+	<script th:src="@{/js/bootstrap.js}"></script>
+	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+</body>
+</html>
